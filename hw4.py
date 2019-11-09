@@ -10,25 +10,26 @@ ODE_h_x = lambda x, y, z, **kwargs: (-26.2 * (kwargs.get('e') - kwargs.get('v'))
 
 Vmax = 10**6                            #'Infinite' potential
 half_width_box = 0.5 * (10**-9)         #half width of 1nm box
-E_initial_guess = 1.602* (10**-19)/ 26.2               #Initial guess for E
+E_initial_guess = 1               #Initial guess for E
 eta = 10**-15
 step_size = eta**(.5) 
 
 
 def V(x, a):
     if abs(x) <= a:
-        return Vmax
+        return 0
     return Vmax
 
 
 
 
 ODE_f_x = lambda x, y, z, **kwargs: z
-ODE_g_x = lambda x, y, z, **kwargs: (-26.2 * (kwargs.get('e') - 0) * y)
+ODE_h_x = lambda x, y, z, **kwargs: (-26.2 * (kwargs.get('e') - 0) * y)
+ODE_g_x = lambda x, y, z, **kwargs: (-26.2 * (kwargs.get('e') - kwargs.get('v')) * y)
 
 def Runge_Kutta(E, f, g, h, interval):
     a = interval
-    N = 10
+    N = 100
     h = a / N
     
     x_ary = np.zeros(N)
@@ -65,27 +66,39 @@ def Runge_Kutta(E, f, g, h, interval):
             + (l2(x_ary[i], y_ary[i], z_ary[i]) / 3) 
             + (l3(x_ary[i], y_ary[i], z_ary[i]) / 3)
             + (l4(x_ary[i], y_ary[i], z_ary[i]) / 6))
-    
+    '''
     print('y(a) = {0:.15}\nz(a) = {1:.4}'.format(y_ary[-1], z_ary[-1]))
     plt.plot(x_ary, y_ary)
     plt.show()
-
-Runge_Kutta(E_initial_guess/10, ODE_f_x, ODE_g_x, step_size, half_width_box)
-
-
-
-
-
-
-'''
-
-
-
-print('y(a) = {0:.4}\nz(a) = {1:.4}'.format(y_ary[-1], z_ary[-1]))
+    '''
+    return x_ary, y_ary
+    '''    
+    print('y(a) = {0:.15}\nz(a) = {1:.4}'.format(y_ary[-1], z_ary[-1]))
     plt.plot(x_ary, y_ary)
     plt.show()
-    plt.plot(x_ary, z_ary)
-    plt.show()
-    plt.plot(y_ary, z_ary)
-    plt.show()
-'''
+    '''
+
+
+change = 1
+#Runge_Kutta(E_initial_guess*(change)*1E18, ODE_f_x, ODE_g_x, step_size, half_width_box)
+
+
+
+difference = 1
+y_a = 0
+current_max = 0.5
+while abs(difference) > 1E-8:
+    current_max = current_max/10
+    while abs(difference) > current_max:
+        change += current_max*(np.sign(difference))
+        x_val, y_val = Runge_Kutta(E_initial_guess*(change)*1E18, ODE_f_x, ODE_g_x, step_size, half_width_box)
+        
+        
+        difference = y_val[-1]
+        print('y(a) = {0:.15}\ndifference = {1:.5}\nEnergy = {2:.8}\n'.format(y_val[-1], difference, (E_initial_guess*(change)*1E18)))
+        y_a = y_val[-1]
+
+E_estimate = E_initial_guess*(change)*1E18
+plt.plot(x_val, y_val)
+plt.show()
+
