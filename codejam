@@ -1,0 +1,45 @@
+import numpy as np
+T = int(input())
+for e in range(1, T + 1):
+    schedule = ''
+    N = int(input())
+    initial_matrix = np.zeros([N, 2])
+    Jamie = np.zeros([1, 2])
+    Cameron = np.zeros([1, 2])
+    for a in range(N):
+        initial_matrix[a] = [float(j) for j in input().split(" ")]
+    matrix = initial_matrix[np.argsort(initial_matrix[:,0])]
+    Jamie = np.append(Jamie, [matrix[0]], axis=0)
+    for i in range(1, N):
+        if matrix[i, 0] >= Jamie[-1, 1]:
+            Jamie = np.append(Jamie, [matrix[i]], axis=0)
+        elif matrix[i, 0] >= Cameron[-1, 1]:
+            Cameron = np.append(Cameron, [matrix[i]], axis=0)
+        else:
+            schedule = "IMPOSSIBLE"
+            break
+
+
+    Jamie=np.delete(Jamie, 0, 0)
+    Cameron=np.delete(Cameron, 0, 0)
+    for i in initial_matrix:
+        if i in Jamie and i in Cameron:
+            index=0
+            done=False
+            for j in range(len(initial_matrix)):
+                if not done and np.all(initial_matrix[j]==i):
+                    index=j
+                    done=True
+            if len(schedule)<index+1 and schedule != "IMPOSSIBLE":
+                schedule+="J"
+            elif schedule[index]=="J" and schedule != "IMPOSSIBLE":
+                schedule+="C"
+            elif schedule[index]=="C" and schedule != "IMPOSSIBLE":
+                schedule+="J"
+
+        elif i in Jamie and schedule != "IMPOSSIBLE":
+            schedule+="J"
+        elif i in Cameron and schedule != "IMPOSSIBLE":
+            schedule+="C"
+
+    print ("Case #{0}: {1}".format(e, schedule))
