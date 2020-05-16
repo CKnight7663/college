@@ -1,0 +1,40 @@
+# Configuration file for tmuxa
+
+
+# Rebinding default prefix to Ctrl+a
+unbind C-b
+set -g prefix C-a
+
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
+#setw -g aggressive -resize
+
+
+### Key Bindings
+
+# Split window and fix path for tmux 1.9
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+
+# Pane movement shortcuts
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Resize pane shortcuts
+bind -r H resize-pane -L 10
+bind -r J resize-pane -D 10
+bind -r K resize-pane -U 10
+bind -r L resize-pane -R 10
+
+# Enable mosue pane selection 
+#setw -g mouse on 
+
+
+
+source ~/dotfiles/tmux/base16.sh 
+
+
+

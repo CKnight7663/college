@@ -1,0 +1,60 @@
+
+"nnoremap <Up> :echo "No up for you!"<CR>
+"nnoremap <Down> :echo "No down for you!"<CR>
+"nnoremap <Left> :echo "No left for you!"<CR>
+"nnoremap <Right> :echo "No right for you!"<CR>
+
+:set relativenumber
+
+filetype plugin on
+filetype indent on
+
+
+
+" Set leader to , to allow more key comboninatons
+" such as <leader>w to save
+let mapleader = ","
+
+" Quick Saving
+nmap <leader>w :w<cr>
+
+" Quick Quit
+nmap <leader>q :q<cr>
+
+" Quick Save & Quit
+nmap <leader>x :x<cr>
+
+
+
+
+
+
+set laststatus=2
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+set tabstop=4
+
+set ruler
+
+
+set ffs=unix,dos,mac
+
+set ai
+set si
+set wrap 
+
+
+
+function! HasPaste()
+	if &paste
+		return 'PASTE MODE  '
+	end if
+	return ''
+endfunction
+
+
+""""""""""""""""
+" Colour & Fonts
+""""""""""""""""
+" Enable syntax highlighting
+syntax enable
