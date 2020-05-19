@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This is in the original file
 # Installing the all configuration files, and important brew packages
 
 # Defining a function that checks the type of
@@ -10,13 +10,13 @@ command_exists() {
 #echo -e "\n"
 echo '\\\\\ Installing dotfiles \\\\\'
 echo "==============================="
-source install/backup.sh
+#source install/backup.sh
 
 HERE="$(pwd)"
 NEW_DOTFILES=$HERE/dotfiles
 DOTFILES=$HOME/.dotfiles
 echo "Moving new dotfiles"
-cp -r $NEW_DOTFILES $DOTFILES
+rsync -a $NEW_DOTFILES $DOTFILES
 
 
 

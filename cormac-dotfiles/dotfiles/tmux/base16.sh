@@ -1,8 +1,8 @@
 #Base16 Styling Guidlines
 
-base00=default      # -Default
+base00=default      # - Default
 base01='#151515'    # - Lighter Background (Used for statubars)
-base02='#202020'    # -Selection Background
+base02='#202020'    # - Selection Background
 base03='#909090'    # - Comments, Invisibles, Line Highlighting
 base04='#505050'    # - Dark Foreground (Used for status bars)
 base05='#D0D0D0'    # - Default Foreground, Caret, Delimiters, Operators
@@ -27,7 +27,7 @@ set-option -g status-style fg=$base02,bg=$base00,default
 set-window-option -g window-status-style fg=$base03,bg=$base00
 set-window-option -g window-status-format " #I #W"
 
-
+#set -g default-terminal "screen-256colour"
 
 
 
@@ -36,6 +36,8 @@ set-window-option -g clock-mode-colour $base03
 
 tm_session_name="#[default,bg=$base00,fg=$base0E] #S "
 set -g status-left "$tm_session_name"
+
+
 
 tm_tunes="#[bg=$base00,fg=$base0D] ♫ #(osascript -l JavaScript ~/.dotfiles/tmux/tunes.js)"
 tm_battery="#[fg=$base0F, bg=$base00] ♥ #(battery)"

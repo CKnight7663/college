@@ -2,8 +2,14 @@
 
 
 DOTFILES=$HOME/.dotfiles
-BACKUP_DIR=$HOME/dotfiles-backup
+BACKUP_DIR=$HOME/dotfiles-backup/symlinks
 
+
+if [[ -d $BACKUP_DIR ]]; then
+    rm -rf "$BACKUP_DIR"
+fi
+
+mkdir "$BACKUP_DIR"
 
 echo -e "\n"
 echo '\\\\\\Creating symlinks\\\\\\'

@@ -1,60 +1,119 @@
+set runtimepath+=~/.dotfiles/vim/.vim_runtime
 
-"nnoremap <Up> :echo "No up for you!"<CR>
-"nnoremap <Down> :echo "No down for you!"<CR>
-"nnoremap <Left> :echo "No left for you!"<CR>
-"nnoremap <Right> :echo "No right for you!"<CR>
+source ~/.dotfiles/vim/.vim_runtime/vimrcs/basic.vim
+source ~/.dotfiles/vim/.vim_runtime/vimrcs/filetypes.vim
+source ~/.dotfiles/vim/.vim_runtime/vimrcs/plugins_config.vim
+source ~/.dotfiles/vim/.vim_runtime/vimrcs/extended.vim
 
-:set relativenumber
+try
+source ~/.dotfiles/vim/im_runtime/my_configs.vim
+catch
+endtry
 
-filetype plugin on
-filetype indent on
+
+""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""
+source ~/.dotfiles/vim/plugins.vim
 
 
-
-" Set leader to , to allow more key comboninatons
-" such as <leader>w to save
-let mapleader = ","
-
-" Quick Saving
-nmap <leader>w :w<cr>
-
-" Quick Quit
-nmap <leader>q :q<cr>
-
-" Quick Save & Quit
-nmap <leader>x :x<cr>
+set relativenumber
 
 
 
 
 
-
-set laststatus=2
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-set tabstop=4
-
-set ruler
-
-
-set ffs=unix,dos,mac
-
-set ai
-set si
-set wrap 
+set clipboard=unnamed
 
 
 
-function! HasPaste()
-	if &paste
-		return 'PASTE MODE  '
-	end if
-	return ''
-endfunction
+
+" Keybinds {{{
+    " Core Vim {{{
+        " Leader key    
+        let mapleader = ','
+
+        " Quick Saving
+        nmap <leader>w :w<cr>
+
+        " Quick Quit
+        nmap <leader>q :q<cr>
+
+        " Quick Save & Quit
+        nmap <leader>x :x<cr>
+
+        " Open Vim terminal split
+        nmap <leader>t :term<cr>
+    
+        " Clear highlighted search
+        noremap <space> :set hlsearch! h1seach?<cr>
+        
+        " markdown to html
+        nmap <leader>md :%!markdown --html4tags <cr>
+        
+        " seet paste toggle
+        set pastetoggle=<leader>v
 
 
-""""""""""""""""
-" Colour & Fonts
-""""""""""""""""
-" Enable syntax highlighting
-syntax enable
+
+
+        " }}}
+
+    " NERDTree {{{
+    
+
+
+    " }}}
+
+
+
+" }}}
+
+" Appearence {{{
+    set so=10
+    set autoindent 
+    set ttyfast
+    set wildmenu
+    set noshowmode
+    set title
+    
+    
+    " NERDTree {{{
+        let g:NERDTreeShowHidden=1 " Show hidden files    
+    " }}}
+" }}}
+
+
+:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
+" Find out how to move this preview to the bottom
+set completeopt-=preview
+
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
+
+
+" autocmd vimenter * NERDTree
+nmap <C-\> :NERDTreeToggle<CR>
+"Closes vim if NERDTree is only window
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeWinPos = "left"
+
+nmap <silent> <leader>y :NERDTreeFind<cr>
+nmap <silent> <leader>n :NERDTreeToggle<cr>
+
+
+
+no <leader>j <C-w>j| "switching to below window 
+no <leader>k <C-w>k| "switching to above window
+no <leader>l <C-w>l| "switching to right window 
+no <leader>h <C-w>h| "switching to left window
+set splitright
+set splitbelow
+
+" map <silent> <C-h> <Plug>WinMoveLeft
+" map <silent> <C-j> <Plug>WinMoveDown
+" map <silent> <C-k> <Plug>WinMoveUp
+" map <silent> <C-l> <Plug>WinMoveRight

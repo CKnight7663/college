@@ -1,0 +1,125 @@
+export ZSH=$DOTFILES/zsh
+
+if [[ -d $DOTFILES/zsh/functions ]]; then
+    for func in $DOTFILES/zsh/functions/*(:t); autoload -U $func
+fi
+
+#######################################################
+# Configuration
+#######################################################
+
+COLOR_BLACK="\e[0;30m"
+COLOR_BLUE="\e[0;34m"
+COLOR_GREEN="\e[0;32m"
+COLOR_CYAN="\e[0;36m"
+COLOR_PINK="\e[0;35m"
+COLOR_RED="\e[0;31m"
+COLOR_PURPLE="\e[0;35m"
+COLOR_BROWN="\e[0;33m"
+COLOR_LIGHTGRAY="\e[0;37m"
+COLOR_DARKGRAY="\e[1;30m"
+COLOR_LIGHTBLUE="\e[1;34m"
+COLOR_LIGHTGREEN="\e[1;32m"
+COLOR_LIGHTCYAN="\e[1;36m"
+COLOR_LIGHTRED="\e[1;31m"
+COLOR_LIGHTPURPLE="\e[1;35m"
+COLOR_YELLOW="\e[1;33m"
+COLOR_WHITE="\e[1;37m"
+COLOR_NONE="\e[0m"
+
+#if [ -z "$TMUX" ]; then
+#export TERM="xterm-256colour"    
+#else
+#    export TERM=tmux-256colour    
+#fi
+
+if [ "$(uname)" = "Linux" ]; then
+	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+fi
+
+#######################################################
+# Prompt
+#######################################################
+# Default MacOS Prompt
+# PROMPT='%n@%m %1~ %#'
+
+# Default but in colour
+# PROMPT='%F{blue}%n@%m %1%f~ %#'
+
+
+# Everthing between %F and %f will be in the colour specified
+# no %f changes the entire terminal
+
+words=("Linux" "VIM ♥ " "You should use Zsh" "~" "/")
+rand_int="$((1+ RANDOM % $(($#words))))"
+
+
+
+t_lprompt="%F{116}%m%f %F{225}%2~ $rand_int  %f%# "
+t_rprompt="%F{116}P%f%F{225}r%f%F{15}i%f%F{225}d%f%F{116}e%f"
+l_rprompt="%F{9}L%f%F{208}G%f%F{220}B%f%F{28}T%f%F{27}Q%f%F{90}+%f"
+ny_rprompt="%F{11}E%f%F{15}N%f%F{98}B%f%F{0}Y%f"
+
+
+my_lprompt="%F{30}%m%f %F{247}%2~ %f%# "
+my_rprompt="%F{1}${words[$rand_int]}"  
+
+
+
+PROMPT=$my_lprompt
+RPROMPT=$my_rprompt
+
+
+
+
+
+
+#######################################################
+# Aliases
+#######################################################
+# Find what type of ls in use
+if ls --color > /dev/null 2>&1; then # GNU ls
+    colourflag="--color"
+else # macos ls
+    colorflag="-G"
+fi
+
+# Filesystem Navigation
+alias /="cd /"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# File Listing
+alias l="ls -lah $colorflag"
+alias la="ls -AF $colorflag"
+alias ll="ls -lFh $colorflag"
+alias lld="ls -l $colorflag | grep ^d"
+
+alias grep="grep --color=auto"
+alias df="df -h" # Disk free in bytes
+alias du="du -h -c" # Disk usage of folder
+
+
+
+# Hiding and showing Desktop
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# Remove those pesky .DS_STORE files (Needs some work)
+alias cleanup="find . -name '*.DS_STORE' -type f -ls -delete"
+
+
+# Use macvim if on MacOS
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias vim='mvim -v'
+fi
+
+# tmux aliases
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tat='tmux attach -t'
+alias tns='tmux new-session -s'
+
+
